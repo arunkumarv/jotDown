@@ -1,0 +1,41 @@
+body {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    /* Full width of the parent */
+    box-sizing: border-box;
+    /* Ensures padding/border don’t affect width */
+    resize: vertical;
+    /* Allow only vertical resizing */
+    min-height: 60vh;
+    /* Optional: Set a minimum height */
+}
+
+pre {
+    width: 100%;
+    /* Makes it take full width of the parent */
+    white-space: pre-wrap;
+    /* Allows text wrapping */
+    word-wrap: break-word;
+    /* Ensures long words wrap properly */
+    overflow-x: auto;
+    /* Enables horizontal scrolling if needed */
+    box-sizing: border-box;
+    /* Includes padding & border in width */
+}
+
+ul.links {
+    padding-left: 0;
+}
+
+ul.links li {
+    display: inline;
+    margin-right: 10px;
+}

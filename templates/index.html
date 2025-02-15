@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PasteX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'links.html' %}
+    <h3>Create a New Paste</h3>
+    <form method="POST">
+        <textarea name="content" placeholder="Enter your text content here..." required></textarea><br>
+        <button type="submit">Create</button>
+    </form>
+    <p>
+        Recent pastes: 
+        {% for paste in pastes %} 
+            <a href="{{ url_for('view_paste', paste_id=paste.id) }}">{{ paste.id }}</a>
+        {% endfor %}
+    </p>
+</body>
+</html>
