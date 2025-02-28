@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote_plus
+from datetime import datetime
 
 import random, string, re
 
@@ -11,16 +12,14 @@ mysql_password = quote_plus("Ganga@7089#")
 mysql_host = "localhost"
 mysql_db = "pastebin"
 
-# mysql_uri = f"mysql+pymysql://{mysql_username}:{mysql_password}@{mysql_host}/{mysql_db}"
-password = quote_plus("Ganga@7089#")  # Encodes special characters
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://root:{password}@localhost/pastebin'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{mysql_username}:{mysql_password}@{mysql_host}/{mysql_db}'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = mysql_uri
 db = SQLAlchemy(app)
 
 class Paste(db.Model):
     id = db.Column(db.String(6), primary_key=True)
     content = db.Column(db.Text, nullable=False)
+    create_date = db.Column(db.DateTime, default=datetime.utcnow)
 
 def extract_snippet(content, query, window=50):
     match = re.search(re.escape(query), content, re.IGNORECASE)
@@ -47,7 +46,7 @@ def index():
         db.session.add(new_paste)
         db.session.commit()
         return redirect(url_for('view_paste', paste_id=paste_id))
-    pastes = Paste.query.order_by(Paste.id.desc()).limit(10).all()
+    pastes = Paste.query.order_by(Paste.create_date.desc()).limit(10).all()
     return render_template('index.html', pastes=pastes)
 
 @app.route('/<paste_id>')

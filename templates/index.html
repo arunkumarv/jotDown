@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PasteX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='quill/quill.snow.css') }}">
+    <script src="{{ url_for('static', filename='quill/quill.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .ql-editor {
+            min-height: 200px;
+        }
+    </style>
 </head>
+
 <body>
     {% include 'links.html' %}
     <h3>Create a New Paste</h3>
     <form method="POST">
-        <textarea name="content" placeholder="Enter your text content here..." required></textarea><br>
-        <button type="submit">Create</button>
+        <div id="editor"></div>
+        <button type="submit" style="margin-top: 10px;" class="google-button">Create</button>
     </form>
+    <script>
+        const quill = new Quill('#editor', {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic'],
+                    ['link', 'blockquote', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                ],
+            },
+            theme: 'snow',
+        });
+        const form = document.querySelector('form');
+        form.addEventListener('formdata', (event) => {
+            event.formData.append('content', quill.root.innerHTML);
+        });
+    </script>
     <p>
-        Recent pastes: 
-        {% for paste in pastes %} 
-            <a href="{{ url_for('view_paste', paste_id=paste.id) }}">{{ paste.id }}</a>
+        Recent pastes:
+        {% for paste in pastes %}
+        <a href="{{ url_for('view_paste', paste_id=paste.id) }}">{{ paste.id }}</a>
         {% endfor %}
     </p>
 </body>
+
 </html>

@@ -1,0 +1,2 @@
+- [ ] Move the mysql creds to a seperate file
+- [ ] Skip html tags in the search result

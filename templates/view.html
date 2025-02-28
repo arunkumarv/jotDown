@@ -8,8 +8,9 @@
 </head>
 <body>
     {% include 'links.html' %}
-    <h3>Paste</h3>
-    <pre>{{ paste }}</pre>
+    <div class="paste-content">
+        {{ paste | safe }}
+    </div>
     <br>
     <a href="{{ url_for('index') }}">Create a new Paste</a>
 </body>
