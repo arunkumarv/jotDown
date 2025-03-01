@@ -1,16 +1,19 @@
+import os
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote_plus
 from datetime import datetime
+from dotenv import load_dotenv
 
 import random, string, re
 
 app = Flask(__name__)
+load_dotenv()
 
-mysql_username = "root"
-mysql_password = quote_plus("Ganga@7089#")
-mysql_host = "localhost"
-mysql_db = "pastebin"
+mysql_username = os.getenv("MYSQL_USER")
+mysql_password = quote_plus(os.getenv("MYSQL_PASSWORD"))
+mysql_host = os.getenv("MYSQL_HOST")
+mysql_db = os.getenv("MYSQL_DB")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{mysql_username}:{mysql_password}@{mysql_host}/{mysql_db}'
 
